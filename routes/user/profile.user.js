@@ -1,6 +1,6 @@
 const express = require('express')
-const authMiddleware = require('../middleware/auth.middleware')
-const {User, validate,validateProfile} = require('../models/user')
+const authMiddleware = require('../../middleware/auth.middleware')
+const {User, validate,validateProfile} = require('../../models/user')
 const santizer = require('sanitizer')
 
 const router = express.Router()

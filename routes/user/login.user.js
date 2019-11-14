@@ -1,7 +1,7 @@
 const express = require('express')
 const sanitizer = require('sanitizer')
 
-const {User} = require('../models/user')
+const {User} = require('../../models/user')
 
 
 const router = express.Router()

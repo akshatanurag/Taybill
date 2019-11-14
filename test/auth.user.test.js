@@ -35,7 +35,7 @@ describe('Authentication',()=>{
             let res = await supertest(app).post("/api/login").send({email: "akshatanurg1999@gmail.com",password: "Anurag2@"})
             expect(res.status).toBe(200)
             //console.log(res.body)
-            await User.deleteMany({})
+            //await User.deleteMany({})
         })
     })
 

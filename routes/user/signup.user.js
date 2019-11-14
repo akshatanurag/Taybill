@@ -3,7 +3,7 @@ const sanitizer = require('sanitizer');
 var owasp = require('owasp-password-strength-test');
 const randomstring = require('randomstring')
 
-const {  User, validate} = require('../models/user')
+const {  User, validate} = require('../../models/user')
 
 owasp.config({
     allowPassphrases: true,
@@ -58,7 +58,7 @@ router.post('/signup', async (req, res) => {
     });
 
     user.password = await user.generateHash(submittedUser.password);
-    const token = user.generateAuthToken(submittedUser.email);
+    const token = await user.generateAuthToken(submittedUser.email);
     let verifyToken = await randomstring.generate({
       length: 50,
       charset: 'hex'
