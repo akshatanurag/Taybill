@@ -1,7 +1,7 @@
 const validator = require("validator");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const joi = require("joi");
+const joi = require("@hapi/joi");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 
@@ -102,7 +102,8 @@ userSchema.methods.validPassword = function(password, hashPass) {
 userSchema.methods.generateAuthToken = function(bodyEmail) {
   return jwt.sign(
     {
-      email: bodyEmail
+      email: bodyEmail,
+      type: "User"
     },
     config.get("jwtPrivateKey"),
     {
@@ -112,7 +113,7 @@ userSchema.methods.generateAuthToken = function(bodyEmail) {
 };
 
 function validateSchema(user) {
-  const schema = {
+  const schema = joi.object().keys({
     name: joi
       .string()
       .min(1)
@@ -130,12 +131,12 @@ function validateSchema(user) {
       .max(255)
       .required(),
     mob_no: joi.number().min(10).required(),
-  };
-  return joi.validate(user, schema);
+  });
+  return schema.validate(user);
 }
 
 let validateProfile = (profile)=>{
-  const schema = {
+  const schema = joi.object().keys({
     gender: joi.string().required(),
     dob: joi.string().max(11).required(),
     addressLine1: joi.string().max(100).required(),
@@ -143,8 +144,8 @@ let validateProfile = (profile)=>{
     city: joi.string().max(100).required(),
     state: joi.string().max(100).required(),
     pincode: joi.number().required()
-  }
-  return joi.validate(profile,schema)
+  })
+  return schema.validate(profile)
 }
 
 var User = mongoose.model("user", userSchema);

@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken')
-const { User } = require('../models/user');
+const { Rest } = require('../../models/rest');
 const config = require('config')
 
 const fetchUser = async email => {
-    var findUser = await User.findOne({
+    var findUser = await Rest.findOne({
       email: email
     }).select("-password")
     if (!findUser) return 0;
@@ -11,7 +11,7 @@ const fetchUser = async email => {
   };
 
 module.exports = {
-    isLoggedIn: async(req,res,next)=>{
+    isRestLoggedIn: async (req,res,next)=>{
         try {
             const token = req.header('x-auth-token');
             if (!token)
@@ -20,9 +20,9 @@ module.exports = {
                 message: 'Access denied'
               });
             const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
-            req.user = decoded;
-            req.currentUser = await fetchUser(decoded.email)
-            if(req.currentUser!== 0)
+            req.rest = decoded;
+            req.currentRest = await fetchUser(decoded.email)
+            if(req.currentRest!== 0)
               next();
             else
               return res.status(401).send({

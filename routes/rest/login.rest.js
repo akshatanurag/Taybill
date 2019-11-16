@@ -1,20 +1,28 @@
 const express = require('express')
-const santizer = require('sanitizer')
 const {Rest} = require('../../models/rest')
+const joi = require('@hapi/joi')
+
+const sanitize = require('../../utility/santize-input')
+
 
 const router = express.Router()
 
 router.post("/rest/login",async (req,res)=>{
     let input = {email,password} = req.body
-    if(!input.email || !input.password)
+
+    const schema = joi.object().keys({
+      email: joi.string().email().max(255).required(),
+      password: joi.string().max(255).required()
+    })
+    if(a = await schema.validate(input).error)
     return res.status(400).send({
-        success: false,
-        message: "All fields are required"
+      success: false,
+      message: a.details[0].message
     })
-    Object.keys(input).forEach((props)=>{
-        if(input[props]!== null)
-        input[props] = santizer.escape(input[props])
-    })
+
+
+    sanitize.sanitizerEscape(input)
+
     var findRest = await Rest.findOne({
         email: input.email
       });

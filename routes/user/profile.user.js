@@ -1,7 +1,7 @@
 const express = require('express')
-const authMiddleware = require('../../middleware/auth.middleware')
+const authMiddleware = require('../../middleware/user/auth.middleware')
 const {User, validate,validateProfile} = require('../../models/user')
-const santizer = require('sanitizer')
+const sanitize = require('../../utility/santize-input')
 
 const router = express.Router()
 
@@ -19,18 +19,7 @@ router.post("/profile",authMiddleware.isLoggedIn,async (req,res)=>{
 
     try {
         let userProfile = {gender,dob,addressLine1,addressLine2,city,state,pincode} = req.body
-        if(!userProfile.gender || !userProfile.dob || !userProfile.addressLine1 || !userProfile.city || !userProfile.state || !userProfile.pincode){
-            return res.status(400).send({
-                success: false,
-                message: "All fields are required"
-            })
-        }
-        Object.keys(userProfile).forEach((props)=>{
-            if(userProfile[props]!=null){
-                userProfile[props]=santizer.escape(userProfile[props])
-            }
-        })
-    
+
         const { error } = await validateProfile(userProfile);
         if (error)
           return res.status(400).send({
@@ -38,6 +27,9 @@ router.post("/profile",authMiddleware.isLoggedIn,async (req,res)=>{
             message: error.details[0].message
           });
     
+        sanitize.sanitizerEscape(userProfile)
+    
+
           result = await User.updateOne({email: req.user.email},{$set: {
             'profile.gender': userProfile.gender,
             'profile.dob': userProfile.dob,

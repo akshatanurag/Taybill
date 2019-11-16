@@ -1,5 +1,7 @@
 const express = require('express')
-const sanitizer = require('sanitizer')
+const sanitize = require('../../utility/santize-input')
+const joi = require('@hapi/joi')
+
 
 const {User} = require('../../models/user')
 
@@ -10,14 +12,16 @@ const router = express.Router()
 router.post("/login",async (req,res)=>{
     try {
         var loginCreds ={email,password} = req.body
-        if(loginCreds.email == null || loginCreds.password == null)
-        throw 'Email or Password is required'
-        Object.keys(loginCreds).forEach((props)=>{
-            if(loginCreds[props]!== null)
-                loginCreds[props] = sanitizer.escape(loginCreds[props])
-            else
-            throw 'Email or Password is required'
+        const schema = joi.object().keys({
+          email: joi.string().email().required(),
+          password: joi.string().required()
         })
+        if(a = schema.validate(loginCreds).error)
+        return res.status(400).send({
+          success: false,
+          message: a.details[0].message
+        })
+        sanitize.sanitizerEscape(loginCreds)
         var findUser = await User.findOne({
             email: loginCreds.email
           });

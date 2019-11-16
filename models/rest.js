@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const joi = require('joi')
+const joi = require('@hapi/joi')
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config=require("config")
@@ -33,7 +33,6 @@ var restSchema = new mongoose.Schema({
     dateJoined: Date,
     password: {
         type: String,
-        required: true,
         minlength: 6
     },
     seat_info: {
@@ -114,7 +113,8 @@ restSchema.methods.validPassword = function(password, hashPass) {
 restSchema.methods.generateAuthToken = function(bodyEmail) {
   return jwt.sign(
     {
-      email: bodyEmail
+      email: bodyEmail,
+      type: "Rest"
     },
     config.get("jwtPrivateKey"),
     {
@@ -123,19 +123,36 @@ restSchema.methods.generateAuthToken = function(bodyEmail) {
   );
 };
 
-const validateRestSignup = (input)=>{
-    const schema = {
-        name: joi.string().min(1).max(100).required(),
-        email: joi.string().min(10).max(100).required(),
-        password: joi.string().min(6).max(1000).required()
-    }
+const validateRestSignup = async (input)=>{
+    const schema = joi.object().keys({
+      name: joi.string().min(1).max(100).required(),
+      email: joi.string().email().min(10).max(100).required(),
+      password: joi.string().min(6).max(255).required()
+    })
 
-    return joi.validate(input,schema)
+    return schema.validate(input)
+}
+
+const validateProfile = (input)=>{
+  const schema = joi.object().keys({
+    profilePic: joi.string().min(1).max(200).required(),
+    addressLine1: joi.string().max(100).required(),
+    addressLine2: joi.string().max(100),
+    city: joi.string().max(100).required(),
+    state: joi.string().max(100).required(),
+    pincode: joi.number().required(),
+    contact: joi.number().min(10).required(),
+    lat: joi.number().required(),
+    lng: joi.number().required(),
+    total_seats: joi.number().required()
+  })
+  return schema.validate(input)
 }
 
 var Rest = mongoose.model('restaurant_user',restSchema)
 
 module.exports = {
     Rest,
-    validateRestSignup
+    validateRestSignup,
+    validateProfile
 }

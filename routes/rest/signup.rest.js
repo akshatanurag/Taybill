@@ -1,29 +1,15 @@
 const express = require('express')
-const santizer = require('sanitizer')
 const {Rest,validateRestSignup} = require('../../models/rest')
 const randomstring = require('randomstring')
+
+const sanitize = require('../../utility/santize-input')
+
 
 const router = express.Router()
 
 router.post("/rest/signup",async (req,res)=>{
     try {
     let input = {name,email,password} = req.body
-    if(!input.email || !input.name || !input.password)
-    return res.status(400).send({
-        success: false,
-        message: "All fields are required."
-    })
-    Object.keys(input).forEach((props)=>{
-        if(input[props]!== null)
-        input[props] = santizer.escape(input[props])
-    })
-
-
-    if(await Rest.findOne({email: input.email}))
-    return res.status(400).send({
-        success: false,
-        message: "Email already taken."
-    })
 
     let {error} = await validateRestSignup(input)
     if (error)
@@ -31,6 +17,14 @@ router.post("/rest/signup",async (req,res)=>{
       success: false,
       message: error.details[0].message
     });
+    
+    sanitize.sanitizerEscape(input)
+
+    if(await Rest.findOne({email: input.email}))
+    return res.status(400).send({
+        success: false,
+        message: "Email already taken."
+    })
     let rest = new Rest({
         name: input.name,
         email: input.email
@@ -65,11 +59,11 @@ router.post("/rest/signup",async (req,res)=>{
         message: "Signup successful."
     })
     } catch (error) {
-        console.log("Catch " + error)
-        return res.status(400).send({
-            success: false,
-            message: "Opps! Something went wrong"
-        })
+        // console.log("Catch " + error)
+        // return res.status(400).send({
+        //     success: false,
+        //     message: "Opps! Something went wrong"
+        // })
     }
     
 })
