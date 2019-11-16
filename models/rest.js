@@ -71,7 +71,7 @@ var restSchema = new mongoose.Schema({
             coordinate: [{
               type: Number
             }]
-        }
+        },
     },
     dateJoined: Date,
     verify:{
@@ -96,7 +96,43 @@ var restSchema = new mongoose.Schema({
             default: 0,
             type: Number
         }
-      }
+      },
+      items: [{
+        _id: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          unique: true
+        },
+        name: {
+          type: String,
+          required: true,
+          minlength: 1,
+          maxlength: 255,
+          trim: true
+        },
+        price: {
+          type: Number,
+          required: true
+        },
+        qty: {
+          type: String
+        },
+        noOfPeople: {
+          type: Number
+        },
+        pic: {
+          type: String,
+          trim: true
+        },
+        available: {
+          type: Boolean,
+          default: true
+        },
+        timeToCook: {
+          type: Number,
+          required: true
+        }
+    }]
 })
 
 mongoose.Promise = global.Promise
@@ -149,10 +185,24 @@ const validateProfile = (input)=>{
   return schema.validate(input)
 }
 
+const addFoodItems = (input)=>{
+    const schema = joi.object().keys({
+      name: joi.string().min(1).max(255).required(),
+      price: joi.number().required(),
+      qty: joi.string().min(1).max(1),
+      noOfPeople: joi.number().required(),
+      pic: joi.string().min(1).max(255),
+      available: joi.boolean(),
+      timeToCook: joi.number().required()
+    })
+    return schema.validate(input)
+}
+
 var Rest = mongoose.model('restaurant_user',restSchema)
 
 module.exports = {
     Rest,
     validateRestSignup,
-    validateProfile
+    validateProfile,
+    addFoodItems
 }

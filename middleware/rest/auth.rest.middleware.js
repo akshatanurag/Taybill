@@ -22,7 +22,7 @@ module.exports = {
             const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
             req.rest = decoded;
             req.currentRest = await fetchUser(decoded.email)
-            if(req.currentRest!== 0)
+            if(req.currentRest!== 0 && req.rest.type === "Rest")
               next();
             else
               return res.status(401).send({
