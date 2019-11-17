@@ -8,7 +8,7 @@ const restMiddleWare = require('../../middleware/rest/auth.rest.middleware')
 
 const router = express.Router()
 
-router.post('/rest/addfooditems',restMiddleWare.isRestLoggedIn,async (req,res)=>{
+router.post('/rest/food/add',restMiddleWare.isRestLoggedIn,async (req,res)=>{
     try {
         let input = {name,price,qty,noOfPeople,pic,available,timeToCook} = req.body
 
@@ -53,6 +53,29 @@ router.post('/rest/addfooditems',restMiddleWare.isRestLoggedIn,async (req,res)=>
             message: "Opps! Something went wrong..."
         })
     }  
+})
+
+router.get("/rest/food/delete/:id",restMiddleWare.isRestLoggedIn,async (req,res)=>{
+
+    let result = await Rest.updateOne({_id: req.currentRest._id},{
+        $pull: {
+            items: {
+                _id: req.params.id
+            }}
+    },{ safe: true})
+    if(result.ok){
+        return res.status(200).send({
+            success: true,
+            message: "Food Item(s) deleted."
+        })
+    } else{
+    console.log(result)
+      return res.status(400).send({
+          success: false,
+          message: "Food Item(s) not deleted. Something went wrong"
+      })
+    }
+    
 })
 
 

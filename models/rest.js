@@ -100,9 +100,8 @@ var restSchema = new mongoose.Schema({
       items: [{
         _id: {
           type: mongoose.Schema.Types.ObjectId,
-          required: true,
           unique: true
-        },
+          },
         name: {
           type: String,
           required: true,
@@ -131,6 +130,10 @@ var restSchema = new mongoose.Schema({
         timeToCook: {
           type: Number,
           required: true
+        },
+        noOfTimesOrders: {
+          type: Number,
+          default: 0
         }
     }]
 })
@@ -186,16 +189,16 @@ const validateProfile = (input)=>{
 }
 
 const addFoodItems = (input)=>{
-    const schema = joi.object().keys({
-      name: joi.string().min(1).max(255).required(),
-      price: joi.number().required(),
-      qty: joi.string().min(1).max(1),
-      noOfPeople: joi.number().required(),
-      pic: joi.string().min(1).max(255),
-      available: joi.boolean(),
-      timeToCook: joi.number().required()
-    })
-    return schema.validate(input)
+  const schema = joi.object().keys({
+    name: joi.string().min(1).max(255).required(),
+    price: joi.number().required(),
+    qty: joi.string().min(1).max(1),
+    noOfPeople: joi.number().required(),
+    pic: joi.string().min(1).max(255),
+    available: joi.boolean(),
+    timeToCook: joi.number().required()
+  })
+  return schema.validate(input)
 }
 
 var Rest = mongoose.model('restaurant_user',restSchema)
