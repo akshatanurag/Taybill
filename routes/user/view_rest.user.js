@@ -1,11 +1,11 @@
 const express = require('express')
 
 const {Rest} = require('../../models/rest')
-const userMiddleware = require('../../middleware/user/auth.middleware')
+const userMiddleware = require('../../middleware/user/user.middleware')
 
 const router = express.Router()
 
-router.get("/view",userMiddleware.isLoggedIn,async (req,res)=>{
+router.get("/view",[userMiddleware.isLoggedIn,userMiddleware.isOTPVerified],async (req,res)=>{
     try {
         let result = await Rest.find({},{verify: 0,password: 0})
         if(result)
@@ -27,7 +27,7 @@ router.get("/view",userMiddleware.isLoggedIn,async (req,res)=>{
 
 })
 
-router.get("/view/:id",userMiddleware.isLoggedIn,async (req,res)=>{
+router.get("/view/:id",[userMiddleware.isLoggedIn,userMiddleware.isOTPVerified,userMiddleware.isProfileComplete],async (req,res)=>{
     // console.log(req.params.id)
     try {
         let result = await Rest.findById(req.params.id,{verify: 0,password: 0})

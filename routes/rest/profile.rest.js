@@ -1,12 +1,12 @@
 const express = require('express')
-const middleware = require('../../middleware/rest/auth.rest.middleware')
+const middleware = require('../../middleware/rest/rest.middleware')
 const sanitize = require('../../utility/santize-input')
 
 const {Rest,validateProfile} = require('../../models/rest')
 
 const router = express.Router()
 
-router.get("/rest/profile",middleware.isRestLoggedIn,(req,res)=>{
+router.get("/rest/profile",[middleware.isRestLoggedIn,middleware.isDocsVerified,middleware.isOTPVerified,middleware.isProfileComplete],(req,res)=>{
 
     res.status(200).send({
         success: true,
@@ -16,7 +16,7 @@ router.get("/rest/profile",middleware.isRestLoggedIn,(req,res)=>{
     })
 })
 
-router.post("/rest/profile",middleware.isRestLoggedIn,async (req,res)=>{
+router.post("/rest/profile",[middleware.isRestLoggedIn,middleware.isDocsVerified,middleware.isOTPVerified],async (req,res)=>{
     try {
         let input = {profilePic,contact,total_seats,addressLine1,addressLine2,city,state,pincode,lat,lng} = req.body
 
@@ -41,6 +41,8 @@ router.post("/rest/profile",middleware.isRestLoggedIn,async (req,res)=>{
             'address.location.coordinate':[input.lat,input.lng]
         }})
         if(result.ok){
+            let res1 = await Rest.updateOne({email: req.rest.email},{$set: {isProfileComplete: true}})
+            if(res1.ok)
             return res.status(200).send({
                 success: true,
                 message: "Profile updated."

@@ -9,9 +9,7 @@ const hpp = require('hpp');
 const helmet = require('helmet');
 var compression = require('compression');
 var contentLength = require('express-content-length-validator');
-const crypto = require('crypto-js')
 var MAX_CONTENT_LENGTH_ACCEPTED = 20000;
-const jwt = require('jsonwebtoken');
 require('../db/connection');
 
 

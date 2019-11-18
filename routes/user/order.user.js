@@ -1,6 +1,6 @@
 const express = require('express')
 
-const userMiddleware = require('../../middleware/user/auth.middleware')
+const userMiddleware = require('../../middleware/user/user.middleware')
 const sanitize = require('../../utility/santize-input')
 
 const {Order,orderJoi} = require('../../models/order')
@@ -10,7 +10,7 @@ const router = express.Router()
 
 
 
-router.post("/order",userMiddleware.isLoggedIn,async (req,res)=>{
+router.post("/order",[userMiddleware.isLoggedIn,userMiddleware.isOTPVerified,userMiddleware.isProfileComplete],async (req,res)=>{
     let input = {rest_id,orderedItems} = req.body
     let {error} = orderJoi(input)
     var orderArray = Object.keys(input.orderedItems).map((key)=>{
@@ -49,7 +49,7 @@ router.post("/order",userMiddleware.isLoggedIn,async (req,res)=>{
 
 })
 
-router.get("/order/:id",userMiddleware.isLoggedIn,async (req,res)=>{
+router.get("/order/:id",[userMiddleware.isLoggedIn,userMiddleware.isOTPVerified],async (req,res)=>{
     let result = await Order.find({_id: req.params.id,user_id: req.currentUser._id})
     if(result !== null || result !== [])
     return res.status(200).send({

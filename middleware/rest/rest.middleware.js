@@ -36,5 +36,32 @@ module.exports = {
               message: 'Access denied'
             });
           }
+    },
+    isOTPVerified: (req,res,next)=>{
+      if(req.currentRest.verify.isNumberVerified)
+      next()
+      else
+      return res.status(401).send({
+        success: false,
+        message: 'Verify OTP first'
+      });
+    },
+    isProfileComplete: (req,res,next)=>{
+      if(req.currentRest.isProfileComplete)
+      next()
+      else
+      return res.status(401).send({
+        success: false,
+        message: 'Profile Not Complete.'
+      });
+    },
+    isDocsVerified: (req,res,next)=>{ 
+      if(req.currentRest.verify.docsVerified)
+      next()
+      else
+      return res.status(401).send({
+        success: false,
+        message: 'Not verified by Taybill.'
+      });
     }
 }

@@ -4,11 +4,11 @@ const mongoose = require('mongoose')
 const {Rest,addFoodItems} = require('../../models/rest')
 const sanitize = require('../../utility/santize-input')
 
-const restMiddleWare = require('../../middleware/rest/auth.rest.middleware')
+const middleware = require('../../middleware/rest/rest.middleware')
 
 const router = express.Router()
 
-router.post('/rest/food/add',restMiddleWare.isRestLoggedIn,async (req,res)=>{
+router.post('/rest/food/add',[middleware.isRestLoggedIn,middleware.isDocsVerified,middleware.isOTPVerified,middleware.isProfileComplete],async (req,res)=>{
     try {
         let input = {name,price,qty,noOfPeople,pic,available,timeToCook} = req.body
 
@@ -55,7 +55,7 @@ router.post('/rest/food/add',restMiddleWare.isRestLoggedIn,async (req,res)=>{
     }  
 })
 
-router.get("/rest/food/delete/:id",restMiddleWare.isRestLoggedIn,async (req,res)=>{
+router.get("/rest/food/delete/:id",[middleware.isRestLoggedIn,middleware.isDocsVerified,middleware.isOTPVerified,middleware.isProfileComplete],async (req,res)=>{
 
     let result = await Rest.updateOne({_id: req.currentRest._id},{
         $pull: {

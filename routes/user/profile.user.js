@@ -1,11 +1,11 @@
 const express = require('express')
-const authMiddleware = require('../../middleware/user/auth.middleware')
+const authMiddleware = require('../../middleware/user/user.middleware')
 const {User, validate,validateProfile} = require('../../models/user')
 const sanitize = require('../../utility/santize-input')
 
 const router = express.Router()
 
-router.get("/profile",authMiddleware.isLoggedIn,(req,res)=>{
+router.get("/profile",[authMiddleware.isLoggedIn,authMiddleware.isOTPVerified,authMiddleware.isProfileComplete],(req,res)=>{
 
     res.send({
         success: true,
@@ -15,7 +15,7 @@ router.get("/profile",authMiddleware.isLoggedIn,(req,res)=>{
     })
 })
 
-router.post("/profile",authMiddleware.isLoggedIn,async (req,res)=>{
+router.post("/profile",[authMiddleware.isLoggedIn,authMiddleware.isOTPVerified],async (req,res)=>{
 
     try {
         let userProfile = {gender,dob,addressLine1,addressLine2,city,state,pincode} = req.body
