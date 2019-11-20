@@ -137,7 +137,7 @@ function validateSchema(user) {
 
 let validateProfile = (profile)=>{
   const schema = joi.object().keys({
-    gender: joi.string().required(),
+    gender: joi.string().valid('M','F','O').required(),
     dob: joi.string().max(11).required(),
     addressLine1: joi.string().max(100).required(),
     addressLine2: joi.string().max(100),

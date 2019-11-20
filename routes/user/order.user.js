@@ -22,6 +22,11 @@ router.post("/order",[userMiddleware.isLoggedIn,userMiddleware.isOTPVerified,use
     sanitize.sanitizerEscape(input)
 
     let rest = await Rest.findOne({_id: input.rest_id,'items._id': {$in: orderArray}},{password: 0,verify: 0})
+    if(!rest)
+    return res.status(400).send({
+        success: false,
+        message: "Restaurant Not found."
+    })
     let price = 0;
     let avgTime = 0
     var order = new Order({
@@ -51,7 +56,7 @@ router.post("/order",[userMiddleware.isLoggedIn,userMiddleware.isOTPVerified,use
 
 router.get("/order/:id",[userMiddleware.isLoggedIn,userMiddleware.isOTPVerified],async (req,res)=>{
     let result = await Order.find({_id: req.params.id,user_id: req.currentUser._id})
-    if(result !== null || result !== [])
+    if(!result)
     return res.status(200).send({
         success: true,
         message: result

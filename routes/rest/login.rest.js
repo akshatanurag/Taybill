@@ -9,7 +9,7 @@ const restMiddleware = require('../../middleware/rest/rest.middleware')
 
 const router = express.Router()
 
-router.post("/rest/login",restMiddleware.isDocsVerified,async (req,res)=>{
+router.post("/rest/login",async (req,res)=>{
     let input = {email,password} = req.body
 
     const schema = joi.object().keys({

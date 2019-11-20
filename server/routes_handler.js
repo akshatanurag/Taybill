@@ -7,6 +7,7 @@ const restProfileRoutes = require('../routes/rest/profile.rest')
 const addFoodItemRoutes = require('../routes/rest/add_fooditems.rest')
 const viewRestRoutes = require('../routes/user/view_rest.user')
 const orderRoutes = require('../routes/user/order.user')
+const tableRoutes = require('../routes/rest/table.rest')
 
 module.exports = (app) => {
     app.use("/api", signupRoutes)
@@ -18,4 +19,5 @@ module.exports = (app) => {
     app.use("/api",addFoodItemRoutes)
     app.use("/api",viewRestRoutes)
     app.use("/api",orderRoutes)
+    app.use("/api/rest",tableRoutes)
 }

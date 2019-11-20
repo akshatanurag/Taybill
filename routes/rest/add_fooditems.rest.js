@@ -55,6 +55,10 @@ router.post('/rest/food/add',[middleware.isRestLoggedIn,middleware.isDocsVerifie
     }  
 })
 
+// router.post("/rest/food/update/:id",[middleware.isRestLoggedIn,middleware.isDocsVerified,middleware.isOTPVerified,middleware.isProfileComplete], async (res,res)=>{
+//     Rest.findOne({})
+// })
+
 router.get("/rest/food/delete/:id",[middleware.isRestLoggedIn,middleware.isDocsVerified,middleware.isOTPVerified,middleware.isProfileComplete],async (req,res)=>{
 
     let result = await Rest.updateOne({_id: req.currentRest._id},{
