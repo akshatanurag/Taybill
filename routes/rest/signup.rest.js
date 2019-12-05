@@ -7,7 +7,7 @@ const sanitize = require('../../utility/santize-input')
 
 const router = express.Router()
 
-router.post("/rest/signup",async (req,res)=>{
+router.post("/signup",async (req,res)=>{
     try {
     let input = {name,email,password} = req.body
 

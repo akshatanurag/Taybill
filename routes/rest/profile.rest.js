@@ -6,7 +6,7 @@ const {Rest,validateProfile} = require('../../models/rest')
 
 const router = express.Router()
 
-router.get("/rest/profile",[middleware.isRestLoggedIn,middleware.isDocsVerified,middleware.isOTPVerified,middleware.isProfileComplete],(req,res)=>{
+router.get("/profile",[middleware.isRestLoggedIn,middleware.isDocsVerified,middleware.isOTPVerified,middleware.isProfileComplete],(req,res)=>{
 
     res.status(200).send({
         success: true,
@@ -16,7 +16,7 @@ router.get("/rest/profile",[middleware.isRestLoggedIn,middleware.isDocsVerified,
     })
 })
 
-router.post("/rest/profile",[middleware.isRestLoggedIn,middleware.isDocsVerified,middleware.isOTPVerified],async (req,res)=>{
+router.post("/profile",[middleware.isRestLoggedIn,middleware.isDocsVerified,middleware.isOTPVerified],async (req,res)=>{
     try {
         let input = {profilePic,contact,total_seats,addressLine1,addressLine2,city,state,pincode,lat,lng} = req.body
 

@@ -22,6 +22,10 @@ var tableSchema = new mongoose.Schema({
             type: String,
             required: true,
             default: "Free"
+        },
+        qrcode: {
+            type: String,
+            required: true
         }
     }],
 

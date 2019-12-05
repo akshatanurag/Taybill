@@ -8,7 +8,7 @@ const middleware = require('../../middleware/rest/rest.middleware')
 
 const router = express.Router()
 
-router.post('/rest/food/add',[middleware.isRestLoggedIn,middleware.isDocsVerified,middleware.isOTPVerified,middleware.isProfileComplete],async (req,res)=>{
+router.post('/food/add',[middleware.isRestLoggedIn,middleware.isDocsVerified,middleware.isOTPVerified,middleware.isProfileComplete],async (req,res)=>{
     try {
         let input = {name,price,qty,noOfPeople,pic,available,timeToCook} = req.body
 
@@ -59,7 +59,7 @@ router.post('/rest/food/add',[middleware.isRestLoggedIn,middleware.isDocsVerifie
 //     Rest.findOne({})
 // })
 
-router.get("/rest/food/delete/:id",[middleware.isRestLoggedIn,middleware.isDocsVerified,middleware.isOTPVerified,middleware.isProfileComplete],async (req,res)=>{
+router.get("/food/delete/:id",[middleware.isRestLoggedIn,middleware.isDocsVerified,middleware.isOTPVerified,middleware.isProfileComplete],async (req,res)=>{
 
     let result = await Rest.updateOne({_id: req.currentRest._id},{
         $pull: {
