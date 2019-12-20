@@ -84,6 +84,7 @@ if (cluster.isMaster) {
 
 
     app.get("/api",(req,res)=>{
+      console.log(1)
         return res.status(200).send({success: true, message: "TayBill API v1.0"})
     })
 
