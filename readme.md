@@ -1,9 +1,9 @@
 
-### Documentation
+# Documentation
 ---
 ## USERS
 ---
-# /api/signup (POST)
+### /api/signup (POST)
 ```
     - Expects
         - name
@@ -16,7 +16,7 @@
         - success : false
 
 ```
-# /api/login (POST)
+### /api/login (POST)
 ```
         -Expects
             -email
@@ -27,7 +27,7 @@
             -error(only if error exits)
     
 ```
-# /api/profile (GET and POST)
+#### /api/profile (GET and POST)
 ```
     **GET**
     - Returns user profile
@@ -46,14 +46,14 @@
 
 ```
 
-# /api/view (GET)
+### /api/view (GET)
 ```
     - Will return all hotels
     - add lazy loading
     - later on we can add something like db will omly return some data at one request
 ```
 
-# /api/view/:id (GET)
+### /api/view/:id (GET)
 
 ```
     -return an individual hotel and all it's food items
@@ -61,7 +61,7 @@
 ```
 
 
-### IGONORE BELOW THIS
+# IGONORE BELOW THIS
 
 
 # /api/order/ (POST)
