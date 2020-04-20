@@ -27,7 +27,7 @@
             -error(only if error exits)
     
 ```
-#### /api/profile (GET and POST)
+### /api/profile (GET and POST)
 ```
     **GET**
     - Returns user profile
@@ -64,7 +64,7 @@
 # IGONORE BELOW THIS
 
 
-# /api/order/ (POST)
+### /api/order/ (POST)
 ```
     - Expects
         - rest_id -> 5dd00114d2a6fd51b892de4e
@@ -74,12 +74,12 @@
         -lng
 ```
 
-# /api/order/:id (GET)
+### /api/order/:id (GET)
 
 
 
 
-### LEFT TASKS FOR ME
+# LEFT TASKS FOR ME
 ---
 ### 1. OTP Vierify
 ```
