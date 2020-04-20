@@ -61,7 +61,7 @@
 ```
 
 
-# IGONORE BELOW THIS
+# IGNORE BELOW THIS
 
 
 ### /api/order/ (POST)
