@@ -38,6 +38,13 @@ var orderSchema= new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    accepted: {
+        type: Boolean,
+        default: false
+    },
+    rejectMessage: {
+        type: String
+    }
 
 
 })

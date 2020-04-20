@@ -8,9 +8,9 @@ const {Rest} = require('../../models/rest')
 
 const router = express.Router()
 
+//[userMiddleware.hasScannedCorrectQR,userMiddleware.isNearRest],
 
-
-router.post("/order",[userMiddleware.isLoggedIn,userMiddleware.isOTPVerified,userMiddleware.isProfileComplete],[userMiddleware.hasScannedCorrectQR,userMiddleware.isNearRest],async (req,res)=>{
+router.post("/order",[userMiddleware.isLoggedIn,userMiddleware.isOTPVerified,userMiddleware.isProfileComplete],async (req,res)=>{
     try {
         let input = {rest_id,orderedItems,qr,lat,lng} = await req.body
         let {error} = orderJoi(input)

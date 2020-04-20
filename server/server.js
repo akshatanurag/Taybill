@@ -22,7 +22,7 @@ if (!config.get('jwtPrivateKey') ) {
 }
 
 
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 80;
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
 
@@ -65,11 +65,7 @@ if (cluster.isMaster) {
       setTo: 'Taybill Server 1.0'
     })
   ); //change value of X-Powered-By header to given value
-  app.use(
-    helmet.noCache({
-      noEtag: true
-    })
-  ); //set Cache-Control header
+  app.use(helmet()); //set Cache-Control header
   app.use(helmet.noSniff()); // set X-Content-Type-Options header
   app.use(helmet.frameguard()); // set X-Frame-Options header
   app.use(helmet.xssFilter()); // set X-XSS-Protection header
@@ -84,7 +80,6 @@ if (cluster.isMaster) {
 
 
     app.get("/api",(req,res)=>{
-      console.log(1)
         return res.status(200).send({success: true, message: "TayBill API v1.0"})
     })
 

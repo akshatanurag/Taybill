@@ -77,6 +77,7 @@ router.post('/signup', async (req, res) => {
     await user.save();
     res.header('x-auth-token', token).send({
         success: true,
+        emailVerifyToken:  `${req.url}/verify`,
         message: 'Sign up successful'
     });
 
