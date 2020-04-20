@@ -22,7 +22,7 @@ if (!config.get('jwtPrivateKey') ) {
 }
 
 
-let port = process.env.PORT || 80;
+let port = process.env.PORT || 3000;
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
 
