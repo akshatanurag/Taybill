@@ -75,9 +75,12 @@
 ```
 
 ### /api/order/:id (GET)
+```
+    - will get all order
+```
 
 
-
+---
 
 # LEFT TASKS FOR ME
 ---
