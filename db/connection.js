@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const config = require('config')
-mongoose.connect(`${config.get('db')}`,{
+mongoose.connect(`mongodb+srv://root:toor@cluster0-kkzmc.mongodb.net/taybill`,{
     useNewUrlParser: true,
     useFindAndModify: false,
     useCreateIndex: true,

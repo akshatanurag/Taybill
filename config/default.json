@@ -1,4 +1,4 @@
 {
-  "jwtPrivateKey": "",
-  "db": "mongodb://localhost:27017/taybill"
+  "jwtPrivateKey": "sahdagsjhgcsytytsaytysa6c65as45c4ascsacashcgh",
+  "db": "mongodb+srv://root:toor@cluster0-kkzmc.mongodb.net/taybill"
 }

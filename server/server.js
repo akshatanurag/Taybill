@@ -16,13 +16,13 @@ require('../db/connection');
 
 //&& !process.env.SALT && !process.env.SESSION_SECRET && !process.env.password
 
-if (!config.get('jwtPrivateKey') ) {
-  console.log('FATAL ERROR: keys not defined');
-  process.exit(1);
-}
+// if (!config.get('jwtPrivateKey') ) {
+//   console.log('FATAL ERROR: keys not defined');
+//   process.exit(1);
+// }
 
 
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 4000;
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
 
